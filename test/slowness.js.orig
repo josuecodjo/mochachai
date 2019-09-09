@@ -1,0 +1,15 @@
+describe('slow test', function() {
+
+  // Tests will be considered slow after 2.5 seconds elapse
+  this.slow(2500);
+
+  // Completes after the specified 2.5 seconds elapses
+  it('should be complete in 10 seconds', function(done) {
+    setTimeout(done, 2500);
+    done();
+  });
+
+  // Completes immediately
+  it('should be complete instantly', function() {});
+
+});
