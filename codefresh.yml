@@ -1,9 +1,16 @@
 version: '1.0'
 steps:
-  perform_tests:
-    image: node:10.13.0-alpine
-    working_directory: ./
-    description: Performing unit tests...
+  DownloadMyProject:
+    title: Downloading nodes
+    image: node:8.16.0-alpine
+    working_directory: ./nodejs
+    description: Downloading packages...
     commands:
       - npm install 
-      - npm test
+  RunMyTests:
+    title: Running test
+    image: node:8.16.0-alpine
+    working_directory: ./nodejs
+    description: Runing tests...
+    commands:
+      - npm test 
