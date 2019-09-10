@@ -3,7 +3,7 @@ steps:
   DownloadMyProject:
     title: Downloading nodes
     image: node:8.16.0-alpine
-    working_directory: ./nodejs
+    working_directory: ./
     description: Downloading packages...
     commands:
       - npm install
@@ -11,7 +11,7 @@ steps:
   RunMyTests:
     title: Running test
     image: node:8.16.0-alpine
-    working_directory: ./nodejs
+    working_directory: ./
     description: Runing tests...
     commands:
       - npm test 
