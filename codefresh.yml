@@ -6,7 +6,8 @@ steps:
     working_directory: ./nodejs
     description: Downloading packages...
     commands:
-      - npm install 
+      - npm install
+      - ls 
   RunMyTests:
     title: Running test
     image: node:8.16.0-alpine
