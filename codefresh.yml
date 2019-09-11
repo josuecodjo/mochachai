@@ -1,17 +1,21 @@
-version: '1.0'
+version: "1.0"
+stages:
+  - "clone"
+  - "build"
+  - "install"
+  - "test"
 steps:
-  DownloadMyProject:
-    title: Downloading nodes
-    image: node:8.16.0-alpine
-    working_directory: ./
-    description: Downloading packages...
-    commands:
-      - npm install
-      - ls 
-  RunMyTests:
-    title: Running test
-    image: node:8.16.0-alpine
-    working_directory: ./
-    description: Runing tests...
-    commands:
-      - npm test 
+  main_clone:
+    type: "git-clone"
+    description: "Cloning main repository..."
+    repo: "josuecodjo/mochachai"
+    revision: "${{CF_BRANCH}}"
+    stage: "clone"
+  build:
+    title: "Building Docker Image"
+    type: "build"
+    image_name: "josuecodjo/mochachai"
+    tag: "${{CF_BRANCH_TAG_NORMALIZED}}"
+    dockerfile:
+      content: "FROM node:8.16.0-alpine\n          WORKDIR /root/onboarding\n          COPY . /root/onboarding\n          RUN npm install\n	RUN npm test"
+    stage: "build"
