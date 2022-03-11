@@ -65,4 +65,5 @@ jobs:
         - name: list and Run test
           run: |
             ls
+            sudo chown -R $(id -u):$(id -g) node_modules
             npm test
