@@ -26,44 +26,103 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
         - uses: actions/checkout@v2
+
+
         - name: Use Node.js ${{ matrix.node-version }}
           uses: actions/setup-node@v2
           with: 
             node-version: ${{ matrix.node-version }}
 
+        - name: Cache node modules
+          id: cache-nodemodules
+          uses: actions/cache@v2
+          env:
+            cache-name: cache-node-modules
+          with:
+            # caching node_modules
+            path: node_modules # path for node_modules folder
+            key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+            # name of the chache key includes package-lock.json
+            restore-keys: |
+              ${{ runner.os }}-build-${{ env.cache-name }}-
+              ${{ runner.os }}-build-
+              ${{ runner.os }}-
+
         - name: Install dependencies
+          if: steps.cache-nodemodules.outputs.cache-hit != 'true'
           run: npm install
-        - name: list content
-          run: ls
+
+
+        - name: create artifacts and list content
+          run: |
+            mkdir -p artifacts
+            touch artifacts/test.txt
+            ls
+            ls artifacts/
+
+              
     # How to pass artifacts between project --> Upload artifact
-        - name: Download node-modules
+        - name: Upload artifacts
           uses: actions/upload-artifact@v3
           with:
-            name: my-node-modules
-            path: node_modules
+            name: my-artifacts
+            path: artifacts
             retention-days: 1
 
+
+
   artifact-test:
+
     runs-on: ubuntu-latest
+
     needs: [artifact-build]
+
     strategy: 
       matrix:
           node-version: [8.6]
+
     steps:
         - uses: actions/checkout@v2
+
         - name: Use Node.js ${{ matrix.node-version }}
           uses: actions/setup-node@v2
           with: 
             node-version: ${{ matrix.node-version }}
+
+
     # How to pass artifacts between project --> Download artifact
-        - name: Download node-modules
+        - name: Download artifacts
           uses: actions/download-artifact@v3
           with:
-            name: my-node-modules
-            path: node_modules
+            name: my-artifacts
+            path: artifacts
 
         - name: list and Run test
           run: |
             ls
-            sudo chown -R $(id -u):$(id -g) node_modules
             npm test
+
+  docker-build:
+
+    name: Docker build
+
+    runs-on: ubuntu-latest
+
+    needs: [artifact-test]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build Docker image
+        run: |
+          docker build -t nodeapp:$GITHUB_SHA .
+          mkdir -p image_docker
+          docker save nodeapp:$GITHUB_SHA > image_docker/docker-image.tar
+          
+      - name: Temporarily save Docker image
+        uses: actions/upload-artifact@v3
+        with:
+          name: docker-artifact
+          path: image_docker
+          retention-days: 1
