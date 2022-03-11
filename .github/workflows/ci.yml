@@ -33,6 +33,8 @@ jobs:
 
         - name: Install dependencies
           run: npm install
+        - name: list content
+          run: ls
     # How to pass artifacts between project --> Upload artifact
         - name: Download node-modules
           uses: actions/upload-artifact@v3
@@ -62,4 +64,4 @@ jobs:
         - name: list and Run test
           run: |
             ls
-            npm test
+            ls ..
