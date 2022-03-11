@@ -33,11 +33,15 @@ jobs:
 
         - name: Install dependencies
           run: npm install
+    # How to pass artifacts between project --> Upload artifact
+        - name: Download node-modules
+          uses: actions/upload-artifact@v3
+          with:
+            name: my-node-modules
+            path: node_modules
+            retention-days: 1
 
-        - name: Run test
-          run: npm test
-
-  deploy:
+  Test:
     runs-on: ubuntu-latest
     needs: [build]
     strategy: 
@@ -49,6 +53,11 @@ jobs:
           uses: actions/setup-node@v2
           with: 
             node-version: ${{ matrix.node-version }}
+    # How to pass artifacts between project --> Download artifact
+        - name: Download node-modules
+          uses: actions/download-artifact@v3
+          with:
+            name: my-node-modules
 
         - name: Run test
           run: npm test
