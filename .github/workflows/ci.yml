@@ -60,8 +60,9 @@ jobs:
           uses: actions/download-artifact@v3
           with:
             name: my-node-modules
+            path: node_modules
 
         - name: list and Run test
           run: |
             ls
-            ls ..
+            npm test
