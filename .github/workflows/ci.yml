@@ -154,12 +154,3 @@ jobs:
         with:
           name: docker-artifact
           path: image_docker
-
-      - name: Docker load
-        run: |
-          cd image_docker
-          docker load < docker-image.
-          sleep 5
-          docker run -d -p 4000:4000 nodeapp:$GITHUB_SHA
-          sleep 5
-          curl localhost:4000
