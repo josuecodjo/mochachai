@@ -20,17 +20,17 @@ describe('#async_await_promiseMd5()', function() {
     
   })
   
-  context('with non-string argument', function() {
-    it('should throw an error', async function() {
+//   context('with non-string argument', function() {
+//     it('should throw an error', async function() {
     
-      await promiseMd5(12345).catch(function(err) {
-        // add an assertion to check the error
-        expect(function() { throw err })
-          .to.throw(TypeError, 'Data must be a string or a buffer');
-       })
+//       await promiseMd5(12345).catch(function(err) {
+//         // add an assertion to check the error
+//         expect(function() { throw err })
+//           .to.throw(TypeError, 'Data must be a string or a buffer');
+//        })
        
-    })
-  })
+//     })
+//   })
   
 })
 
