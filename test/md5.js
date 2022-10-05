@@ -29,31 +29,31 @@ describe('#md5()', function() {
     })
   })
   
-  context('with non-string argument', function() {
-    it('should throw an error', function(done) {
+//   context('with non-string argument', function() {
+//     it('should throw an error', function(done) {
     
-      md5(12345, function(err, hash) {
-        // call the done() callback with the error if any
-        // to terminate the test
-        if (err) {
+//       md5(12345, function(err, hash) {
+//         // call the done() callback with the error if any
+//         // to terminate the test
+//         if (err) {
         
-          // add an assertion to check the error
-          expect(function() { throw err })
-            .to.throw(TypeError, 'Data must be a string or a buffer');
+//           // add an assertion to check the error
+//           expect(function() { throw err })
+//             .to.throw(TypeError, 'Data must be a string or a buffer');
             
-          // finally call the done() callback
-          // to terminate the test and return
-          return done();
+//           // finally call the done() callback
+//           // to terminate the test and return
+//           return done();
           
-        }
+//         }
         
-        // call the done() callback
-        // to terminate the test
-        done();
-      })
+//         // call the done() callback
+//         // to terminate the test
+//         done();
+//       })
       
-    })
-  })
+//     })
+//   })
   
 })
 
