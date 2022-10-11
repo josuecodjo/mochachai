@@ -33,6 +33,18 @@ pipeline {
       }
     }
 
+    stage('Deploy') {
+        steps {
+            script {
+                if (params.CHOICE == 'QA') {
+                    echo 'Deploying on the QA server'
+                } else {
+                    echo 'Deploying on the Prod server'
+                }
+            }
+        }
+    }
+
     stage('Closing') {
       steps {
         sh 'echo "ending the script"'
