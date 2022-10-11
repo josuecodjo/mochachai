@@ -1,5 +1,8 @@
 pipeline {
   agent any
+  parameters {
+      choice(name: 'CHOICE', choices: ['QA', 'PROD'], description: 'Choose your environment')
+  }
   stages {
     stage('msg1') {
       parallel {
