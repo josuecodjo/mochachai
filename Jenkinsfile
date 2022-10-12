@@ -1,8 +1,5 @@
 pipeline {
   agent any
-  parameters {
-      choice(name: 'CHOICE', choices: ['QA', 'PROD'], description: 'Choose your environment')
-  }
   stages {
     stage('msg1') {
       parallel {
@@ -36,7 +33,11 @@ pipeline {
     stage('Deploy') {
         steps {
             script {
-                if (params.CHOICE == 'QA') {
+                def userInput = input(id: 'userInput', message: 'Choose your environment',
+                parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
+                    description:'describing choices', name:'nameChoice', choices: "QA\nProduction"]
+                ])
+                if (userInput == 'QA') {
                     echo 'Deploying on the QA server'
                 } else {
                     echo 'Deploying on the Prod server'
