@@ -33,11 +33,18 @@ pipeline {
     stage('Deploy') {
         steps {
             script {
-                def userInput = input(id: 'userInput', message: 'Choose your environment',
-                parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'strDef', 
-                    description:'describing choices', name:'nameChoice', choices: "QA\nProduction"]
-                ])
-                if (userInput == 'QA') {
+                def USER_INPUT = input(
+                        message: 'Please choose environment',
+                        parameters: [
+                                [$class: 'ChoiceParameterDefinition',
+                                choices: ['QA','Prod'].join('\n'),
+                                name: 'env',
+                                description: 'Menu - select box option']
+                        ])
+
+                echo "The Choice is: ${USER_INPUT}"
+
+                if( "${USER_INPUT}" == "QA"){
                     echo 'Deploying on the QA server'
                 } else {
                     echo 'Deploying on the Prod server'
